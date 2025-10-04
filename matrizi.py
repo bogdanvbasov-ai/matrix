@@ -310,10 +310,3 @@ class Matrix:
             for j in range(self.y):
                 if j == first:
                     self.matrix[i][first] += self.matrix[i][second] * k
-
-
-c = Matrix([[3, -1], [5, -2]])
-b = Matrix([[2, 5], [6, -5]], [[2, 5], [6, -5]])
-print(b)
-b.line_plus_line(1, 2)
-print(b)

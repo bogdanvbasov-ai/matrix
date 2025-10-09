@@ -30,12 +30,12 @@ class Matrix:
         elif isinstance(other, Matrix):
             if not self.have_the_same_size(other):
                 raise ValueError("Not the same matrix")
-            result = [[self.matrix[j][i] + other.matrix[j][i] for i in range(self.x)] for j in range(self.y)]
+            result = [[self.matrix[j][i] + other.matrix[j][i] for j in range(self.x)] for i in range(self.y)]
             if (self.is_expanded and not other.is_expanded) or (not self.is_expanded and other.is_expanded):
                 raise ValueError("Cannot add matrix with expanded matrix")
             elif self.is_expanded and other.is_expanded:
                 if self.expanded_x == other.expanded_x and self.expanded_y == other.expanded_y:
-                    expanded_result = [[self.expanded[j][i] + other.expanded[j][i] for i in range(self.x)] for j in range(self.y)]
+                    expanded_result = [[self.expanded[j][i] + other.expanded[j][i] for j in range(self.x)] for i in range(self.y)]
                     return Matrix(result, expanded_result)
             return Matrix(result)
         else:
@@ -58,7 +58,7 @@ class Matrix:
         if isinstance(other, int) or isinstance(other, float):
             result = [[self.matrix[j][i] * other for i in range(self.x)] for j in range(self.y)]
             if self.is_expanded:
-                expanded_result = [[self.expanded[j][i] * other for i in range(self.x)] for j in range(self.y)]
+                expanded_result = [[self.expanded[j][i] * other for j in range(self.x)] for i in range(self.y)]
                 return Matrix(result, expanded_result)
             return Matrix(result)
         elif isinstance(other, Matrix):

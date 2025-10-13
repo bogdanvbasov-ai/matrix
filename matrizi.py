@@ -127,16 +127,16 @@ class Matrix:
 
     def __str__(self) -> str:
         s = ""
-        for i in range(self.x):
-            for j in range(self.y):
-                s += str(self.matrix[i][j])
-                if j != self.y - 1:
+        for i in range(self.y):
+            for j in range(self.x):
+                s += str(self.matrix[j][i])
+                if i != self.y - 1:
                     s += "\t"
             if self.is_expanded:
                 s += "\t|\t"
                 for j in range(self.expanded_y):
-                    s += str(self.expanded[i][j])
-                    if j != self.expanded_y - 1:
+                    s += str(self.expanded[j][i])
+                    if i != self.expanded_y - 1:
                         s += "\t"
             s += "\n"
         return s

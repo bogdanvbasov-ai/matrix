@@ -14,6 +14,7 @@ def start():
     hints()
     print("Enter your operation: ", end="")
     inp = input().lower().rstrip()
+    inp = inp.replace(" ", "")
     while inp != "stop":
         if inp == "new":
             new_matrix = []
@@ -27,12 +28,27 @@ def start():
             while line != "":
                 new_matrix.append([float(i) for i in line.rstrip().split(" ")])
                 line = input()
-            print(new_matrix)
             matrices[name_matrx] = matrizi.Matrix(new_matrix)
         elif inp == "equations":
             print("Enter your equations: ", end="")
             inp = input()
             to_queue(inp)
+        elif inp == "minor":
+            matrix_name = input("Enter matrix name: ")
+            while matrix_name not in matrices.keys():
+                if matrix_name == "exit":
+                    break
+                matrix_name = input("Invalid name. Enter another matrix name: ")
+            else:
+                x = input("Enter x coordinate: ")
+                while not x.isdigit():
+                    x = input("Not a number. Enter x coordinate: ")
+                x = int(x)
+                y = input("Enter y coordinate: ")
+                while not y.isdigit():
+                    y = input("Not a number. Enter y coordinate: ")
+                y = int(y)
+                print(matrices[matrix_name].m(x, y))
         else:
             print("Impossible command")
         print("Enter your operation: ", end="")
@@ -96,12 +112,14 @@ def make_operation(queue: list) -> None:
     steak = []
     for i in range(len(queue)):
         if queue[i] == "+":
-            steak.append(steak.pop() + steak.pop())
+            temp = queue.pop()
+            steak.append(steak.pop() + temp)
         elif queue[i] == "-":
             temp = steak.pop()
             steak.append(steak.pop() - temp)
         elif queue[i] == "*":
-            steak.append(steak.pop() * steak.pop())
+            temp = steak.pop()
+            steak.append(steak.pop() * temp)
         elif queue[i] == "/":
             temp = steak.pop()
             steak.append(steak.pop() / temp)
@@ -111,7 +129,6 @@ def make_operation(queue: list) -> None:
             steak.append(steak.pop().inverse_matrix())
         else:
             steak.append(matrices[queue[i]])
-        print(steak[0])
 
 
 def is_name_possible(name: str) -> bool:

@@ -20,10 +20,14 @@ def start():
             new_matrix = []
             print("Enter matrix name: ", end="")
             name_matrx = input()
-            while not is_name_possible(name_matrx) or name_matrx in matrices.keys():
+            while not (is_name_possible(name_matrx) or name_matrx in matrices.keys()):
+                if name_matrx == "stop":
+                    break
                 print("Invalid name. Enter another matrix name: ", end="")
                 name_matrx = input()
-            print("Enter your matrix. You mast separate the elements with space.")
+            if name_matrx == "stop":
+                continue
+            print("Enter your matrix. You must separate the elements with space.")
             line = input()
             while line != "":
                 new_matrix.append([float(i) for i in line.rstrip().split(" ")])
@@ -32,21 +36,36 @@ def start():
         elif inp == "equations":
             print("Enter your equations: ", end="")
             inp = input()
-            to_queue(inp)
+            while not is_line_possible(inp.replace(" ", "") + " "):
+                to_queue(inp)
+                if inp == "stop":
+                    break
+                print("Wrong line. Enter another equation: ", end="")
+                inp = input()
+            if inp == "stop":
+                continue
         elif inp == "minor":
             matrix_name = input("Enter matrix name: ")
             while matrix_name not in matrices.keys():
-                if matrix_name == "exit":
+                if matrix_name == "stop":
                     break
                 matrix_name = input("Invalid name. Enter another matrix name: ")
             else:
                 x = input("Enter x coordinate: ")
                 while not x.isdigit():
+                    if x == "stop":
+                        break
                     x = input("Not a number. Enter x coordinate: ")
+                if x == "stop":
+                    continue
                 x = int(x)
                 y = input("Enter y coordinate: ")
                 while not y.isdigit():
+                    if y == "stop":
+                        break
                     y = input("Not a number. Enter y coordinate: ")
+                if y == "stop":
+                    continue
                 y = int(y)
                 print(matrices[matrix_name].m(x, y))
         else:
@@ -132,7 +151,7 @@ def make_operation(queue: list) -> None:
 
 
 def is_name_possible(name: str) -> bool:
-    if "=" in name or "-" in name or "*" in name or "/" in name or "." in name:
+    if "=" in name or "-" in name or "*" in name or "/" in name or "." in name or " " in name:
         return False
     return True
 
@@ -154,9 +173,9 @@ def is_line_possible(line: str) -> bool:
             if is_last_operation:
                 return False
             is_last_operation = True
-            if i == "." and line[index + 1] != "R":
+            if len(line) > index + 1 and i == "i":
                 return False
-            elif i == "." and line[index + 1] != "T":
+            if (i == "." and line[index + 1] != "R") or (i == "." and line[index + 1] != "T"):
                 return False
         elif line[index - 1] == ".":
             continue
@@ -170,6 +189,9 @@ def is_line_possible(line: str) -> bool:
                 if name in matrices.keys():
                     return False
                 name = ""
+        index += 1
+    if braces_count != 0:
+        return False
     return True
 
 start()

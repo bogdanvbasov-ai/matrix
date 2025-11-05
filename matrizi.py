@@ -315,7 +315,3 @@ class Matrix:
             for j in range(self.y):
                 if j == first:
                     self.matrix[i][first] += self.matrix[i][second] * k
-
-
-h = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-print(h)

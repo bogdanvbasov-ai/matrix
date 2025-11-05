@@ -16,7 +16,12 @@ class Matrix:
                 raise ValueError("Impossible matrix size")
         self.x = len(matrix)
         self.y = len(matrix[0])
-        self.matrix = matrix
+        new_matrix = []
+        for i in range(len(matrix)):
+            new_matrix.append([])
+            for j in range(len(matrix[0])):
+                new_matrix[i].append(matrix[j][i])
+        self.matrix = new_matrix
 
 
     def __add__(self, other) -> 'Matrix':
@@ -130,7 +135,7 @@ class Matrix:
         for i in range(self.y):
             for j in range(self.x):
                 s += str(self.matrix[j][i])
-                if i != self.y - 1:
+                if j != self.x - 1:
                     s += "\t"
             if self.is_expanded:
                 s += "\t|\t"
@@ -310,3 +315,7 @@ class Matrix:
             for j in range(self.y):
                 if j == first:
                     self.matrix[i][first] += self.matrix[i][second] * k
+
+
+h = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print(h)
